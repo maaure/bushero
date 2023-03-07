@@ -17,6 +17,12 @@ class ClasseViagem(models.Model):
 
     class Meta:
         verbose_name_plural = "ClassesViagem"
+
+class Assentos(models.Model):
+    numero_assento = models.IntegerField()
+
+    def __str__(self):
+        return self.numero_assento
     
 class Viagem(models.Model):
     horario_saida = models.DateTimeField(auto_now=False, auto_now_add=False)
@@ -25,10 +31,11 @@ class Viagem(models.Model):
     valor = models.FloatField()
     origem = models.CharField(max_length=100)
     destino = models.CharField(max_length=100)
-    assentos_indisponiveis = models.TextField(blank=True)
+    assentos_indisponiveis = models.ManyToManyField(Assentos, blank=True)
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.nome
+        return self.origem
 
 class Passagem(models.Model):
     nome_passageiro = models.CharField(max_length=100)

@@ -8,15 +8,24 @@ class Empresa(models.Model):
 
     def __str__(self):
         return self.nome
+
+class ClasseViagem(models.Model):
+    nome = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        verbose_name_plural = "ClassesViagem"
     
 class Viagem(models.Model):
     horario_saida = models.DateTimeField(auto_now=False, auto_now_add=False)
     duracao = models.TimeField(auto_now=False, auto_now_add=False)
-    classe = models.CharField(max_length=100)
+    classe = models.ForeignKey(ClasseViagem,on_delete=models.SET_NULL, null=True)
     valor = models.FloatField()
     origem = models.CharField(max_length=100)
     destino = models.CharField(max_length=100)
-    assentos_indisponiveis = models.TextField()
+    assentos_indisponiveis = models.TextField(blank=True)
 
     def __str__(self):
         return self.nome
@@ -39,3 +48,4 @@ class Reserva(models.Model):
 
     def __str__(self):
         return self.numero_contato 
+

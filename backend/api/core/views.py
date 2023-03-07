@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Empresa, Viagem, Passagem, Reserva
-from .serializers import EmpresaSerializer, ViagemSerializer, PassagemSerializer, ReservaSerializer
+from .models import Empresa, Viagem, Passagem, Reserva, ClasseViagem
+from .serializers import EmpresaSerializer, ViagemSerializer, PassagemSerializer, ReservaSerializer, ClasseViagemSerializer
 
 class EmpresaViewSet(viewsets.ModelViewSet):
     queryset = Empresa.objects.all() 
@@ -18,3 +18,7 @@ class PassagemViewSet(viewsets.ModelViewSet):
 class ReservaViewSet(viewsets.ModelViewSet):
     queryset = Reserva.objects.all() 
     serializer_class = ReservaSerializer
+
+class ClasseViagemViewSet(viewsets.ModelViewSet):
+    queryset = ClasseViagem.objects.all() 
+    serializer_class = ClasseViagemSerializer

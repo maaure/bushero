@@ -31,21 +31,20 @@ class Viagem(models.Model):
         return self.nome
 
 class Passagem(models.Model):
-    nome = models.CharField(max_length=100)
+    nome_passageiro = models.CharField(max_length=100)
     numero_documento = models.CharField(max_length=100)
 
     def __str__(self):
         return self.nome
     
 class Reserva(models.Model):
-    viagem = models.OneToOneField(Viagem, on_delete=models.CASCADE)
+    viagem = models.ForeignKey(Viagem, on_delete=models.CASCADE)
     passagens = models.ManyToManyField(Passagem)
     formaPagamento = models.CharField(max_length=50)
     numero_documento = models.CharField(max_length=50)
     numero_contato = models.CharField(max_length=50)
-    email = models.CharField(max_length=50)
+    email = models.EmailField(max_length=100)
     assentos = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.numero_contato 
-
+        return self.numero_contato

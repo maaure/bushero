@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from .models import Empresa, Viagem, Passagem, Reserva, ClasseViagem
 
-
 class EmpresaSerializer(serializers.ModelSerializer):
+    nome = serializers.CharField(error_messages={'required': 'Campo obrigatório.'})
     class Meta:
         model = Empresa
         fields = '__all__'

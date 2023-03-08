@@ -1,4 +1,4 @@
-class EmpresaValidator:
+class CompainhaValidator:
     def __init__(self, nome, endereco, contato):
         self.nome = nome
         self.endereco = endereco

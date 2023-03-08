@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Empresa(models.Model):
+class Compainha(models.Model):
     nome = models.CharField(max_length=100)
     endereco = models.CharField(max_length=100)
     contato = models.CharField(max_length=100)
@@ -32,7 +32,7 @@ class Viagem(models.Model):
     origem = models.CharField(max_length=100)
     destino = models.CharField(max_length=100)
     assentos_indisponiveis = models.ManyToManyField(Assentos, blank=True)
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
+    compainha = models.ForeignKey(Compainha, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.origem

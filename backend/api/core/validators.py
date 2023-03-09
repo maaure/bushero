@@ -1,21 +1,42 @@
-class CompainhaValidator:
-    def __init__(self, nome, endereco, contato):
-        self.nome = nome
-        self.endereco = endereco
-        self.contato = contato
+class Validator:
+    def __init__(self):
         self.messages = []
-    
-    def is_valid(self):
-        if not self.nome:
-            self.messages.append("Nome: Campo Obrigatório")
-            
-        if not self.endereco:
-            self.messages.append("Endereco: Campo Obrigatório")
-            
-        if not self.contato:
-            self.messages.append("Contato: Campo Obrigatório")
-
-        return not len(self.messages) > 0
     
     def get_messages(self):
         return self.messages
+
+    def campo_obrigatorio(self, nome_campo):
+        self.messages.append("@: Campo Obrigatório".replace("@", nome_campo))
+
+    def validate_not_null_fields(self):
+        for attr, val in vars(self).items():
+            if(attr in self.not_null_fields):
+                if(not val or (type(val) is str and len(val) == 0)):
+                    self.campo_obrigatorio(attr)
+
+    def is_valid(self):
+        self.validate_not_null_fields()
+        return not len(self.messages) > 0
+
+    def get_messages(self):
+        return self.messages
+
+class CompainhaValidator(Validator):
+    def __init__(self, nome, endereco, contato):
+        super().__init__()
+        self.nome = nome
+        self.endereco = endereco
+        self.contato = contato
+        self.not_null_fields = ['nome', 'endereco', 'contato']
+    
+class ViagemValidator(Validator):
+    def __init__(self, horario_saida, duracao, classe, valor, origem, destino, compainha):
+        super().__init__()
+        self.horario_saida = horario_saida
+        self.duracao = duracao
+        self.classe_id = classe
+        self.valor = valor
+        self.origem = origem
+        self.destino = destino
+        self.compainha_id = compainha
+        self.not_null_fields = ['horario_saida', 'duracao', 'classe_id', 'valor', 'origem', 'destino', 'compainha_id']

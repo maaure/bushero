@@ -9,6 +9,6 @@ def populate():
     f = open(file_path)
     data = json.load(f)
 
-    Municipio.objects.bulk_create([Municipio(**{'nome': k['nome']}) for k in data])
+    Municipio.objects.bulk_create([Municipio(**{'nome': k['nome'], 'uf': k['microrregiao']['mesorregiao']['UF']['sigla']}) for k in data])
 
     f.close()

@@ -5,8 +5,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .models import Compainha, Viagem, Passagem, Reserva, ClasseViagem, Assento
-from .serializers import CompainhaSerializer, ViagemSerializer, PassagemSerializer, ReservaSerializer, ClasseViagemSerializer, AssentoSerializer
+from .models import Compainha, Viagem, Passagem, Reserva, ClasseViagem, Assento, Municipio
+from .serializers import CompainhaSerializer, ViagemSerializer, PassagemSerializer, ReservaSerializer, ClasseViagemSerializer, AssentoSerializer, MunicipioSerializer
 from .validators import CompainhaValidator, ViagemValidator
 
 class CompainhaViewSet(viewsets.ViewSet):
@@ -117,13 +117,17 @@ class ClasseViagemViewSet(viewsets.ViewSet):
         serializer = ClasseViagemSerializer(query_set, many=True)
         return Response(serializer.data)
 
-class MunicipiosView(APIView):
-    def get(self, request, format=None):
-        url = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
 
-        response = requests.get(url, verify=False)
+class MunicipiosViewSet(viewsets.ViewSet):
+    filtro = None
+    def list(self, request):
+        nome_filtro = request.query_params.get('nome')
 
-        if response.status_code == 200:
-            return Response(response.json())
-        else:
-            return Response({'error': 'Falha ao chamar API externa'}, status=status.HTTP_400_BAD_REQUEST)
+        if not nome_filtro:
+            query_set = Municipio.objects.all()
+            serializer = MunicipioSerializer(query_set, many=True)
+            return Response(serializer.data, status.HTTP_200_OK)
+            
+        query_set = Municipio.objects.filter(nome__contains=nome_filtro)
+        serializer = MunicipioSerializer(query_set, many=True)
+        return Response(serializer.data, status.HTTP_200_OK)

@@ -47,7 +47,8 @@ class ViagemViewSet(viewsets.ViewSet):
             'valor': request.data.get('valor'), 
             'origem': request.data.get('origem'), 
             'destino': request.data.get('destino'), 
-            'compainha':request.data.get('compainha_id')
+            'compainha':request.data.get('compainha_id'),
+            'total_assentos': request.data.get('total_assentos')
         }
 
 
@@ -66,24 +67,13 @@ class ViagemViewSet(viewsets.ViewSet):
         except:
             return Response({'error': ["Classe Inexistente"]}, status=status.HTTP_400_BAD_REQUEST)
 
-
         serializer = ViagemSerializer(data=data)
-        
+
         if serializer.is_valid():
-            return Response('ok', status=status.HTTP_201_CREATED)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-        """ validator = CompainhaValidator(data['nome'], data['endereco'], data['contato']);
-
-        if not validator.is_valid():
-            return Response(validator.get_messages(), status=status.HTTP_400_BAD_REQUEST)
-
-        serializer = CompainhaSerializer(data=data)
-
-        if serializer.is_valid():
-            serializer.save() """
-        print(data)
 
 class PassagemViewSet(viewsets.ViewSet):
     def list(self, request):

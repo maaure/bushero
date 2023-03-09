@@ -33,6 +33,7 @@ class Viagem(models.Model):
     destino = models.CharField(max_length=100)
     assentos_indisponiveis = models.ManyToManyField(Assentos, blank=True)
     compainha = models.ForeignKey(Compainha, on_delete=models.CASCADE)
+    total_assentos = models.IntegerField()
 
     def __str__(self):
         return self.origem

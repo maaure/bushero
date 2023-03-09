@@ -35,6 +35,7 @@ class Viagem(models.Model):
 class Assento(models.Model):
     numero_assento = models.IntegerField()
     viagem = models.ForeignKey(Viagem, on_delete=models.CASCADE)
+    disponivel = models.BooleanField(default=True)
 
     def __str__(self):
         return self.numero_assento

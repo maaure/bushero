@@ -9,10 +9,10 @@ import CardPassagemPromo from "../../components/CardPassagemPromo";
 export default function ReservaDePassagem() {
     return (
         <>
-            <Cabecalho />
             <ImgViagem src={imgviagem} alt="logo da empresa" />
             <CardBuscaPassagem />
             <ContainerCards>
+                <CardPassagemPromo />
                 <CardPassagemPromo />
                 <CardPassagemPromo />
                 <CardPassagemPromo />

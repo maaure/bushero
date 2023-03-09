@@ -1,10 +1,9 @@
 from rest_framework import serializers
-from .models import Empresa, Viagem, Passagem, Reserva, ClasseViagem
+from .models import Compainha, Viagem, Passagem, Reserva, ClasseViagem, Assento, Municipio
 
-
-class EmpresaSerializer(serializers.ModelSerializer):
+class CompainhaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Empresa
+        model = Compainha
         fields = '__all__'
 class ViagemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,4 +21,14 @@ class ReservaSerializer(serializers.ModelSerializer):
 class ClasseViagemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClasseViagem
+        fields = '__all__'
+
+class AssentoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assento
+        fields = ['numero_assento', 'disponivel']
+
+class MunicipioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Municipio
         fields = '__all__'

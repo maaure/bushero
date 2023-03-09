@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Empresa(models.Model):
+class Compainha(models.Model):
     nome = models.CharField(max_length=100)
     endereco = models.CharField(max_length=100)
     contato = models.CharField(max_length=100)
@@ -18,12 +18,7 @@ class ClasseViagem(models.Model):
     class Meta:
         verbose_name_plural = "ClassesViagem"
 
-class Assentos(models.Model):
-    numero_assento = models.IntegerField()
 
-    def __str__(self):
-        return self.numero_assento
-    
 class Viagem(models.Model):
     horario_saida = models.DateTimeField(auto_now=False, auto_now_add=False)
     duracao = models.TimeField(auto_now=False, auto_now_add=False)
@@ -31,12 +26,20 @@ class Viagem(models.Model):
     valor = models.FloatField()
     origem = models.CharField(max_length=100)
     destino = models.CharField(max_length=100)
-    assentos_indisponiveis = models.ManyToManyField(Assentos, blank=True)
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
+    compainha = models.ForeignKey(Compainha, on_delete=models.CASCADE)
+    total_assentos = models.IntegerField()
 
     def __str__(self):
         return self.origem
 
+class Assento(models.Model):
+    numero_assento = models.IntegerField()
+    viagem = models.ForeignKey(Viagem, on_delete=models.CASCADE)
+    disponivel = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.numero_assento
+    
 class Passagem(models.Model):
     nome_passageiro = models.CharField(max_length=100)
     numero_documento = models.CharField(max_length=100)
@@ -55,3 +58,10 @@ class Reserva(models.Model):
 
     def __str__(self):
         return self.numero_contato
+
+class Municipio(models.Model):
+    nome = models.CharField(max_length=100)
+    uf = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nome

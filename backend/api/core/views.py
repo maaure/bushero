@@ -1,41 +1,133 @@
+import requests
+
 from rest_framework import viewsets
 from rest_framework import status
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Empresa, Viagem, Passagem, Reserva, ClasseViagem
-from .serializers import EmpresaSerializer, ViagemSerializer, PassagemSerializer, ReservaSerializer, ClasseViagemSerializer
-class EmpresaViewSet(viewsets.ViewSet):
+from rest_framework.decorators import action
+from .models import Compainha, Viagem, Passagem, Reserva, ClasseViagem, Assento, Municipio
+from .serializers import CompainhaSerializer, ViagemSerializer, PassagemSerializer, ReservaSerializer, ClasseViagemSerializer, AssentoSerializer, MunicipioSerializer
+from .validators import CompainhaValidator, ViagemValidator
+
+class CompainhaViewSet(viewsets.ViewSet):
     def list(self, request):
-        queryset = Empresa.objects.all() 
-        serializer = EmpresaSerializer(queryset, many=True)
+        query_set = Compainha.objects.all() 
+        serializer = CompainhaSerializer(query_set, many=True)
         return Response(serializer.data)
 
     def create(self, request):
-        print(request.data)
         data = {
             'nome': request.data.get('nome'),
-            'contato': request.data.get('contato'),
             'endereco': request.data.get('endereco'),
+            'contato': request.data.get('contato'),
         }
         
-        serializer = EmpresaSerializer(data=data)
+        validator = CompainhaValidator(**data);
+
+        if not validator.is_valid():
+            return Response(validator.get_messages(), status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = CompainhaSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def destroy(self, request):
+        id_compainha = request.data.get(id)
         
+        
+class ViagemViewSet(viewsets.ViewSet):
+    def list(self, request):
+        query_set = Viagem.objects.all() 
+        serializer = ViagemSerializer(query_set, many=True)
+        return Response(serializer.data)
+
+    def create(self, request):
+        data = {
+            'horario_saida':request.data.get('horario_saida'), 
+            'duracao': request.data.get('duracao'), 
+            'classe': request.data.get('classe_id'), 
+            'valor': request.data.get('valor'), 
+            'origem': request.data.get('origem'), 
+            'destino': request.data.get('destino'), 
+            'compainha':request.data.get('compainha_id'),
+            'total_assentos': request.data.get('total_assentos')
+        }
+
+
+        validator = ViagemValidator(**data)
+
+        if not validator.is_valid():
+            return Response({'error': validator.get_messages()}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            Compainha.objects.get(pk=data['compainha'])
+        except:
+            return Response({'error': ["Compainha Inexistente"]}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            ClasseViagem.objects.get(pk=data['classe'])
+        except:
+            return Response({'error': ["Classe Inexistente"]}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = ViagemSerializer(data=data)
+
+
+
+        if serializer.is_valid():
+            serializer.save()
+            Assento.objects.bulk_create([Assento(**{'numero_assento': k, 'viagem_id': serializer.data['id']}) for k in range(1, data['total_assentos'] + 1)])
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-class ViagemViewSet(viewsets.ModelViewSet):
-    queryset = Viagem.objects.all() 
-    serializer = ViagemSerializer
 
-class PassagemViewSet(viewsets.ModelViewSet):
-    queryset = Passagem.objects.all() 
-    serializer = PassagemSerializer
 
-class ReservaViewSet(viewsets.ModelViewSet):
-    queryset = Reserva.objects.all() 
-    serializer = ReservaSerializer
+    @action(detail=True, methods=["get"])
+    def assentos(self, request, pk=None):
+        try:
+            Viagem.objects.get(pk=pk)
+        except:
+            return Response({'error': ["Essa viagem não existe"]}, status=status.HTTP_400_BAD_REQUEST)
 
-class ClasseViagemViewSet(viewsets.ModelViewSet):
-    queryset = ClasseViagem.objects.all() 
-    serializer = ClasseViagemSerializer
+        assentos = Assento.objects.filter(viagem_id=pk)
+
+        if not assentos:
+            return Response({'error': ["Não existem assentos reservados para essa viagem"]}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        serializer = AssentoSerializer(assentos, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+class PassagemViewSet(viewsets.ViewSet):
+    def list(self, request):
+        query_set = Passagem.objects.all() 
+        serializer = PassagemSerializer(query_set, many=True)
+        return Response(serializer.data)
+
+class ReservaViewSet(viewsets.ViewSet):
+    def list(self, request):
+        query_set = Reserva.objects.all() 
+        serializer = ReservaSerializer(query_set, many=True)
+        return Response(serializer.data)
+
+class ClasseViagemViewSet(viewsets.ViewSet):
+    def list(self, request):
+        query_set = ClasseViagem.objects.all() 
+        serializer = ClasseViagemSerializer(query_set, many=True)
+        return Response(serializer.data)
+
+
+class MunicipiosViewSet(viewsets.ViewSet):
+    filtro = None
+    def list(self, request):
+        nome_filtro = request.query_params.get('nome')
+
+        if not nome_filtro:
+            query_set = Municipio.objects.all()
+            serializer = MunicipioSerializer(query_set, many=True)
+            return Response(serializer.data, status.HTTP_200_OK)
+            
+        query_set = Municipio.objects.filter(nome__contains=nome_filtro)
+        serializer = MunicipioSerializer(query_set, many=True)
+        return Response(serializer.data, status.HTTP_200_OK)

@@ -58,3 +58,9 @@ class Reserva(models.Model):
 
     def __str__(self):
         return self.numero_contato
+
+class Municipio(models.Model):
+    nome = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nome

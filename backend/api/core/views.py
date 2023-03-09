@@ -1,5 +1,8 @@
+import requests
+
 from rest_framework import viewsets
 from rest_framework import status
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Compainha, Viagem, Passagem, Reserva, ClasseViagem, Assento
@@ -113,3 +116,14 @@ class ClasseViagemViewSet(viewsets.ViewSet):
         query_set = ClasseViagem.objects.all() 
         serializer = ClasseViagemSerializer(query_set, many=True)
         return Response(serializer.data)
+
+class MunicipiosView(APIView):
+    def get(self, request, format=None):
+        url = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
+
+        response = requests.get(url, verify=False)
+
+        if response.status_code == 200:
+            return Response(response.json())
+        else:
+            return Response({'error': 'Falha ao chamar API externa'}, status=status.HTTP_400_BAD_REQUEST)

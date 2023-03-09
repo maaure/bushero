@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Compainha, Viagem, Passagem, Reserva, ClasseViagem
+from .models import Compainha, Viagem, Passagem, Reserva, ClasseViagem, Assento
 
 class CompainhaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,3 +22,8 @@ class ClasseViagemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClasseViagem
         fields = '__all__'
+
+class AssentoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assento
+        fields = ['numero_assento', 'disponivel']

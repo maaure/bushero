@@ -1,8 +1,9 @@
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from .models import Compainha, Viagem, Passagem, Reserva, ClasseViagem, Assento
-from .serializers import CompainhaSerializer, ViagemSerializer, PassagemSerializer, ReservaSerializer, ClasseViagemSerializer
+from .serializers import CompainhaSerializer, ViagemSerializer, PassagemSerializer, ReservaSerializer, ClasseViagemSerializer, AssentoSerializer
 from .validators import CompainhaValidator, ViagemValidator
 
 class CompainhaViewSet(viewsets.ViewSet):
@@ -78,6 +79,23 @@ class ViagemViewSet(viewsets.ViewSet):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+    @action(detail=True, methods=["get"])
+    def assentos(self, request, pk=None):
+        try:
+            Viagem.objects.get(pk=pk)
+        except:
+            return Response({'error': ["Essa viagem não existe"]}, status=status.HTTP_400_BAD_REQUEST)
+
+        assentos = Assento.objects.filter(viagem_id=pk)
+
+        if not assentos:
+            return Response({'error': ["Não existem assentos reservados para essa viagem"]}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        serializer = AssentoSerializer(assentos, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 class PassagemViewSet(viewsets.ViewSet):
     def list(self, request):
         query_set = Passagem.objects.all() 

@@ -18,12 +18,7 @@ class ClasseViagem(models.Model):
     class Meta:
         verbose_name_plural = "ClassesViagem"
 
-class Assento(models.Model):
-    numero_assento = models.IntegerField()
 
-    def __str__(self):
-        return self.numero_assento
-    
 class Viagem(models.Model):
     horario_saida = models.DateTimeField(auto_now=False, auto_now_add=False)
     duracao = models.TimeField(auto_now=False, auto_now_add=False)
@@ -31,13 +26,19 @@ class Viagem(models.Model):
     valor = models.FloatField()
     origem = models.CharField(max_length=100)
     destino = models.CharField(max_length=100)
-    assentos_indisponiveis = models.ManyToManyField(Assento, blank=True)
     compainha = models.ForeignKey(Compainha, on_delete=models.CASCADE)
     total_assentos = models.IntegerField()
 
     def __str__(self):
         return self.origem
 
+class Assento(models.Model):
+    numero_assento = models.IntegerField()
+    viagem = models.ForeignKey(Viagem, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.numero_assento
+    
 class Passagem(models.Model):
     nome_passageiro = models.CharField(max_length=100)
     numero_documento = models.CharField(max_length=100)

@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
-from .models import Compainha, Viagem, Passagem, Reserva, ClasseViagem
+from .models import Compainha, Viagem, Passagem, Reserva, ClasseViagem, Assento
 from .serializers import CompainhaSerializer, ViagemSerializer, PassagemSerializer, ReservaSerializer, ClasseViagemSerializer
 from .validators import CompainhaValidator, ViagemValidator
 
@@ -69,9 +69,11 @@ class ViagemViewSet(viewsets.ViewSet):
 
         serializer = ViagemSerializer(data=data)
 
-    
+
+
         if serializer.is_valid():
             serializer.save()
+            Assento.objects.bulk_create([Assento(**{'numero_assento': k, 'viagem_id': serializer.data['id']}) for k in range(1, data['total_assentos'] + 1)])
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -18,7 +18,7 @@ class ClasseViagem(models.Model):
     class Meta:
         verbose_name_plural = "ClassesViagem"
 
-class Assentos(models.Model):
+class Assento(models.Model):
     numero_assento = models.IntegerField()
 
     def __str__(self):
@@ -31,7 +31,7 @@ class Viagem(models.Model):
     valor = models.FloatField()
     origem = models.CharField(max_length=100)
     destino = models.CharField(max_length=100)
-    assentos_indisponiveis = models.ManyToManyField(Assentos, blank=True)
+    assentos_indisponiveis = models.ManyToManyField(Assento, blank=True)
     compainha = models.ForeignKey(Compainha, on_delete=models.CASCADE)
     total_assentos = models.IntegerField()
 

@@ -2,16 +2,17 @@ import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import FormCadastrarViagem from "../../components/FormCadastrarViagem";
+import { TituloFormH1 } from "./styled";
 
-export default function CadastrarViagem(){
+export default function CadastrarViagem() {
 
 
-    return(
+    return (
         <>
             <Container >
-                <Row className="justify-content-center align-items-center"  style={{height:"80vh"}}>
+                <Row className="justify-content-center align-items-center" style={{ height: "80vh" }}>
                     <Col md="auto">
-                <p className="h1">Cadastar Viagem</p>
+                        <TituloFormH1>CADASTRAR VIAGEM</TituloFormH1>
                         <FormCadastrarViagem />
                     </Col>
                 </Row>

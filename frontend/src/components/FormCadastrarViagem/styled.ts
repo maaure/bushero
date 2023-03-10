@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
 export const ContainerFormCadastrarViagem = styled.div`
-    border: 1px solid red
+
+    .btn-primary{
+        background: #4ab63d;
+        border: 1px solid #4ab63d;
+        &:hover{
+            font-weight: bold;
+        }
+    }
 `;

@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
-export const ContainerPage = styled.div`
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
-
+export const TituloFormH1 = styled.h1`
+    color: #4AB63D;
+    padding: 1em;
+    font-weight: bold;
 `;

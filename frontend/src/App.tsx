@@ -1,6 +1,6 @@
-// import ReservaDePassagem from './pages/ReservaDePassagem'
 
 import Cabecalho from "./components/cabecalho"
+import ListarDePassagem from "./components/ListarDePassagem"
 import CadastrarViagem from "./pages/CadastrarViagem"
 import ReservaDePassagem from "./pages/ReservaDePassagem"
 
@@ -11,6 +11,7 @@ function App() {
       <Cabecalho />
       <CadastrarViagem />
       {/* <ReservaDePassagem /> */}
+      {/* <ListarDePassagem /> */}
     </>
   )
 }

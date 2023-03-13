@@ -36,9 +36,13 @@ export const Input = styled.input`
 
 export const Botao = styled.button`
     background: #FF7A00;
+    border: #FF7A00;
     padding: 10px;
     border-radius: 5px;
     outline: none;
     color: white;
     margin-top: 1.8em;
+    &:hover{
+        color: black;
+    }
 `;

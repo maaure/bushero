@@ -45,14 +45,14 @@ class ViagemViewSet(viewsets.ViewSet):
 
     def create(self, request):
         data = {
-            'horario_saida':request.data.get('horario_saida'), 
+            'horario_saida':request.data.get('saida'), 
             'duracao': request.data.get('duracao'), 
-            'classe': request.data.get('classe_id'), 
+            'classe': request.data.get('classe'), 
             'valor': request.data.get('valor'), 
             'origem': request.data.get('origem'), 
             'destino': request.data.get('destino'), 
-            'compainha':request.data.get('compainha_id'),
-            'total_assentos': request.data.get('total_assentos')
+            'compainha':request.data.get('compainha'),
+            'total_assentos': request.data.get('assentos')
         }
 
 

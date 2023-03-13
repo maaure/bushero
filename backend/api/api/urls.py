@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from core.views import CompainhaViewSet, ViagemViewSet, PassagemViewSet, ReservaViewSet, MunicipiosViewSet, ClasseViagemViewSet
+from core.views import CompanhiaViewSet, ViagemViewSet, PassagemViewSet, ReservaViewSet, MunicipiosViewSet, ClasseViagemViewSet
 from rest_framework.routers import DefaultRouter
 from drf_yasg.views import get_schema_view as swagger_get_schema_view
 from drf_yasg import openapi
@@ -19,7 +19,7 @@ schema_view = swagger_get_schema_view(
 
 
 
-router.register(r'compainha', CompainhaViewSet, basename='compainha')
+router.register(r'companhia', CompanhiaViewSet, basename='companhia')
 router.register(r'viagem', ViagemViewSet, basename='viagem')
 router.register(r'passagem', PassagemViewSet, basename='passagem')
 router.register(r'reserva', ReservaViewSet, basename='reserva')

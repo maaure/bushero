@@ -21,7 +21,7 @@ class Validator:
     def get_messages(self):
         return self.messages
 
-class CompainhaValidator(Validator):
+class CompanhiaValidator(Validator):
     def __init__(self, nome, endereco, contato):
         super().__init__()
         self.nome = nome
@@ -30,7 +30,7 @@ class CompainhaValidator(Validator):
         self.not_null_fields = ['nome', 'endereco', 'contato']
     
 class ViagemValidator(Validator):
-    def __init__(self, horario_saida, duracao, classe, valor, origem, destino, compainha, total_assentos):
+    def __init__(self, horario_saida, duracao, classe, valor, origem, destino, companhia, total_assentos):
         super().__init__()
         self.horario_saida = horario_saida
         self.duracao = duracao
@@ -38,6 +38,6 @@ class ViagemValidator(Validator):
         self.valor = valor
         self.origem = origem
         self.destino = destino
-        self.compainha_id = compainha
+        self.companhia_id = companhia
         self.total_assentos = total_assentos
-        self.not_null_fields = ['horario_saida', 'duracao', 'classe_id', 'valor', 'origem', 'destino', 'compainha_id', 'total_assentos']
+        self.not_null_fields = ['horario_saida', 'duracao', 'classe_id', 'valor', 'origem', 'destino', 'companhia_id', 'total_assentos']

@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import Compainha, Viagem, Passagem, Reserva, ClasseViagem, Assento, Municipio
+from .models import Companhia, Viagem, Passagem, Reserva, ClasseViagem, Assento, Municipio
 
-class CompainhaSerializer(serializers.ModelSerializer):
+class CompanhiaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Compainha
+        model = Companhia
         fields = '__all__'
 class ViagemSerializer(serializers.ModelSerializer):
     class Meta:

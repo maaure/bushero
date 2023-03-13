@@ -5,14 +5,14 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .models import Compainha, Viagem, Passagem, Reserva, ClasseViagem, Assento, Municipio
-from .serializers import CompainhaSerializer, ViagemSerializer, PassagemSerializer, ReservaSerializer, ClasseViagemSerializer, AssentoSerializer, MunicipioSerializer
-from .validators import CompainhaValidator, ViagemValidator
+from .models import Companhia, Viagem, Passagem, Reserva, ClasseViagem, Assento, Municipio
+from .serializers import CompanhiaSerializer, ViagemSerializer, PassagemSerializer, ReservaSerializer, ClasseViagemSerializer, AssentoSerializer, MunicipioSerializer
+from .validators import CompanhiaValidator, ViagemValidator
 
-class CompainhaViewSet(viewsets.ViewSet):
+class CompanhiaViewSet(viewsets.ViewSet):
     def list(self, request):
-        query_set = Compainha.objects.all() 
-        serializer = CompainhaSerializer(query_set, many=True)
+        query_set = Companhia.objects.all() 
+        serializer = CompanhiaSerializer(query_set, many=True)
         return Response(serializer.data)
 
     def create(self, request):
@@ -22,19 +22,19 @@ class CompainhaViewSet(viewsets.ViewSet):
             'contato': request.data.get('contato'),
         }
         
-        validator = CompainhaValidator(**data);
+        validator = CompanhiaValidator(**data);
 
         if not validator.is_valid():
             return Response(validator.get_messages(), status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = CompainhaSerializer(data=data)
+        serializer = CompanhiaSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def destroy(self, request):
-        id_compainha = request.data.get(id)
+        id_companhia = request.data.get(id)
         
         
 class ViagemViewSet(viewsets.ViewSet):
@@ -51,7 +51,7 @@ class ViagemViewSet(viewsets.ViewSet):
             'valor': request.data.get('valor'), 
             'origem': request.data.get('origem'), 
             'destino': request.data.get('destino'), 
-            'compainha':request.data.get('compainha'),
+            'companhia':request.data.get('companhia'),
             'total_assentos': request.data.get('assentos')
         }
 
@@ -62,9 +62,9 @@ class ViagemViewSet(viewsets.ViewSet):
             return Response({'error': validator.get_messages()}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            Compainha.objects.get(pk=data['compainha'])
+            Companhia.objects.get(pk=data['companhia'])
         except:
-            return Response({'error': ["Compainha Inexistente"]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': ["Companhia Inexistente"]}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             ClasseViagem.objects.get(pk=data['classe'])

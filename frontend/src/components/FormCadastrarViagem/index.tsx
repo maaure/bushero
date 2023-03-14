@@ -4,18 +4,24 @@ import { ContainerFormCadastrarViagem } from './styled';
 import React, { useEffect, useState } from 'react';
 import { IViagemForm } from '../../types/IViagemForm';
 import { criarViagem } from '../../services/ViagemService';
-import { listarCompainha } from '../../services/CompainhaService';
 import { ISelect } from '../../types/ISelect';
+import { listarCompanhia } from '../../services/CompanhiaService';
+import { AsyncTypeahead } from 'react-bootstrap-typeahead';
+import { buscarMunicipios } from '../../services/MunicipiosService';
+import { parseToOption } from '../../utils';
+import { IMunicipio } from '../../types/IMunicipio';
+import { Option } from 'react-bootstrap-typeahead/types/types';
 
 
 export default function FormCadastrarViagem() {
-    const [selectCompainha, setSelectCompainha] = useState<ISelect[]>([]);
+    const [selectCompanhia, setSelectCompanhia] = useState<ISelect[]>([]);
+    const [origemOptions, setOrigemOptions] = useState<ISelect[]>([]);
 
 
     const [formValues, setFormValues] = useState<IViagemForm>({
-        origem: "",
-        destino: "",
-        compainha: "",
+        origem: 0,
+        destino: 0,
+        companhia: "",
         saida: "",
         duracao: "",
         classe: 0,
@@ -39,38 +45,83 @@ export default function FormCadastrarViagem() {
         });
     };
 
-    function listarCompainhas() {
-        listarCompainha().then(
+    function listarCompanhias() {
+        listarCompanhia().then(
             (res) => {
-                setSelectCompainha(res.data);
+                setSelectCompanhia(res.data);
             },
             (error) => {
                 console.log(error)
             });
     }
 
-    useEffect(listarCompainhas, [])
+    const handleSearch = (query: string) => {
+        buscarMunicipios(query)
+            .then((res) => res.data)
+            .then((data) => {
+                let opt: ISelect[] = []
+                data.map((d: IMunicipio) => opt.push(parseToOption(d.id, `${d.nome} - ${d.uf}`)));
+                setOrigemOptions(opt)
+            });
+
+    };
+
+    const setOrigemValue = (id: number) => {
+        setFormValues((prevState) => {
+            return { ...prevState, ["origem"]: id };
+        });
+    }
+
+    const setDestinoValue = (o : Option) => {
+        console.log(o)
+    }
+
+
+    useEffect(listarCompanhias, [])
 
     return (
         <ContainerFormCadastrarViagem>
             <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formBasicOrigem">
+                {/*                 <Form.Group className="mb-3" controlId="formBasicOrigem">
                     <Form.Label>Origem</Form.Label>
                     <Form.Control type="text" name="origem" value={formValues.origem} onChange={handleChange} placeholder="Informe local de origem" required />
+                </Form.Group>
+*/}
+                <Form.Group className="mb-3" controlId="formBasicOrigem">
+                    <Form.Label>Origem</Form.Label>
+                    <AsyncTypeahead
+                        id="cidade-origem"
+                        isLoading={false}
+                        labelKey="text"
+                        minLength={3}
+                        onSearch={handleSearch}
+                        options={origemOptions}
+                        onChange={(v) => console.log(v)}
+                        placeholder="Informe local de Origem"
+                    />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicDestino">
                     <Form.Label>Destino</Form.Label>
-                    <Form.Control type="text" name="destino" value={formValues.destino} onChange={handleChange} placeholder="Informe local de Destino" required />
+                    <AsyncTypeahead
+                        id="cidade-destino"
+                        isLoading={false}
+                        labelKey="text"
+                        minLength={3}
+                        onSearch={handleSearch}
+                        options={origemOptions}
+                        onChange={(v) => setDestinoValue(v[0])}
+                        placeholder="Informe local de Destino"
+                    />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicClasse">
-                    <Form.Label>Compainha</Form.Label>
-                    <FormSelect name="compainha" value={formValues.compainha} onChange={handleChange} placeholder='Informe a compainha' required>
+                    <Form.Label>Companhia</Form.Label>
+                    <FormSelect name="companhia" value={formValues.companhia} onChange={handleChange} placeholder='Informe a companhia' required>
                         <option value=""></option>
                         {
-                            selectCompainha.map((s) => {
-                                return (<option key={s.id} value={s.id}>{s.nome}</option>)
+                            selectCompanhia.map((s) => {
+                                return (<option key={s.id} value={s.id}>{s.text}</option>)
                             })
                         }
                     </FormSelect>

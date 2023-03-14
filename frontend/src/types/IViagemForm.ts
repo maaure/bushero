@@ -1,7 +1,7 @@
 export interface IViagemForm {
-    origem: string,
-    destino: string,
-    compainha: string,
+    origem: number,
+    destino: number,
+    companhia: string,
     saida: string,
     duracao: string,
     classe: number,

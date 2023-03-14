@@ -10,8 +10,11 @@ import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { buscarMunicipios } from '../../services/MunicipiosService';
 import { parseToOption } from '../../utils';
 import { IMunicipio } from '../../types/IMunicipio';
-import { Option } from 'react-bootstrap-typeahead/types/types';
 
+interface IOptional {
+    id: number,
+    texto: string,
+}
 
 export default function FormCadastrarViagem() {
     const [selectCompanhia, setSelectCompanhia] = useState<ISelect[]>([]);
@@ -66,14 +69,12 @@ export default function FormCadastrarViagem() {
 
     };
 
-    const setOrigemValue = (id: number) => {
-        setFormValues((prevState) => {
-            return { ...prevState, ["origem"]: id };
-        });
+    const setOrigemValue = (k : {id: number, text: string}) => {
+        console.log(o.id)
     }
 
-    const setDestinoValue = (o : Option) => {
-        console.log(o)
+    const setDestinoValue = (k : {id: number, text: string}) => {
+        console.log(k.id)
     }
 
 
@@ -96,7 +97,7 @@ export default function FormCadastrarViagem() {
                         minLength={3}
                         onSearch={handleSearch}
                         options={origemOptions}
-                        onChange={(v) => console.log(v)}
+                        onChange={(v) => setOrigemValue(v)}
                         placeholder="Informe local de Origem"
                     />
                 </Form.Group>
@@ -110,7 +111,7 @@ export default function FormCadastrarViagem() {
                         minLength={3}
                         onSearch={handleSearch}
                         options={origemOptions}
-                        onChange={(v) => setDestinoValue(v[0])}
+                        onChange={(v) => setDestinoValue(v)}
                         placeholder="Informe local de Destino"
                     />
                 </Form.Group>

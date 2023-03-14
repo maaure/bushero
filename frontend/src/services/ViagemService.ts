@@ -9,6 +9,5 @@ export const listarViagem = () => {
 }
 
 export const criarViagem = (data: IViagemForm) => {
-    console.log(URL);
     return axios.post(URL, data);
 }

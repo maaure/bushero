@@ -4,18 +4,18 @@ import { ContainerFormCadastrarViagem } from './styled';
 import React, { useEffect, useState } from 'react';
 import { IViagemForm } from '../../types/IViagemForm';
 import { criarViagem } from '../../services/ViagemService';
-import { listarCompainha } from '../../services/CompainhaService';
+import { listarCompanhia } from '../../services/CompanhiaService';
 import { ISelect } from '../../types/ISelect';
 
 
 export default function FormCadastrarViagem() {
-    const [selectCompainha, setSelectCompainha] = useState<ISelect[]>([]);
+    const [selectCompanhia, setSelectCompanhia] = useState<ISelect[]>([]);
 
 
     const [formValues, setFormValues] = useState<IViagemForm>({
         origem: "",
         destino: "",
-        compainha: "",
+        companhia: "",
         saida: "",
         duracao: "",
         classe: 0,
@@ -39,17 +39,17 @@ export default function FormCadastrarViagem() {
         });
     };
 
-    function listarCompainhas() {
-        listarCompainha().then(
+    function listarCompanhias() {
+        listarCompanhia().then(
             (res) => {
-                setSelectCompainha(res.data);
+                setSelectCompanhia(res.data);
             },
             (error) => {
                 console.log(error)
             });
     }
 
-    useEffect(listarCompainhas, [])
+    useEffect(listarCompanhias, [])
 
     return (
         <ContainerFormCadastrarViagem>
@@ -65,11 +65,11 @@ export default function FormCadastrarViagem() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicClasse">
-                    <Form.Label>Compainha</Form.Label>
-                    <FormSelect name="compainha" value={formValues.compainha} onChange={handleChange} placeholder='Informe a compainha' required>
+                    <Form.Label>Companhia</Form.Label>
+                    <FormSelect name="companhia" value={formValues.companhia} onChange={handleChange} placeholder='Informe a companhia' required>
                         <option value=""></option>
                         {
-                            selectCompainha.map((s) => {
+                            selectCompanhia.map((s) => {
                                 return (<option key={s.id} value={s.id}>{s.nome}</option>)
                             })
                         }

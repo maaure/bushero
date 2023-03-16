@@ -12,11 +12,6 @@ import { IMunicipio } from '../../types/IMunicipio';
 import { Option } from 'react-bootstrap-typeahead/types/types';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
-interface IOptional {
-    id: number,
-    texto: string,
-}
-
 export default function FormCadastrarViagem() {
     const [selectCompanhia, setSelectCompanhia] = useState<ISelect[]>([]);
     const [origemOptions, setOrigemOptions] = useState<ISelect[]>([]);

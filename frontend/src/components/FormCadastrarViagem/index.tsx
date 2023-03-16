@@ -95,7 +95,7 @@ export default function FormCadastrarViagem() {
                         minLength={2}
                         onSearch={handleSearch}
                         options={origemOptions}
-                        onChange={(s) => setOrigem(s[0])}
+                        onChange={(s: any) => setOrigem(s[0])}
                         placeholder="Informe local de origem"
                     />
                 </Form.Group>
@@ -109,7 +109,7 @@ export default function FormCadastrarViagem() {
                         minLength={2}
                         onSearch={handleSearch}
                         options={origemOptions}
-                        onChange={(s) => setDestino(s[0])}
+                        onChange={(s: any) => setDestino(s[0])}
                         placeholder="Informe local de destino"
                     />
                 </Form.Group>

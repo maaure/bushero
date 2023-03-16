@@ -1,23 +1,11 @@
-import Cabecalho from "../../components/Cabecalho";
-import { ContainerCards, ImgViagem } from "./styles";
-import imgviagem from "../../assets/Img/viagembus.jpg";
 import CardBuscaPassagem from "../../components/CardBuscaPassagem";
-import CardPassagemPromo from "../../components/CardPassagemPromo";
 
+export default function () {
 
-
-export default function ReservaDePassagem() {
     return (
         <>
-            <ImgViagem src={imgviagem} alt="logo da empresa" />
-            <CardBuscaPassagem />
-            <ContainerCards>
-                <CardPassagemPromo />
-                <CardPassagemPromo />
-                <CardPassagemPromo />
-                <CardPassagemPromo />
-                <CardPassagemPromo />
-            </ContainerCards>
+            <CardBuscaPassagem largura="100%" altura="15vh" bordaArredodada="0" fundo="rgba(74, 182, 61, 0.7)" />
         </>
+
     )
 }

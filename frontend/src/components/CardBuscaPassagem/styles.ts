@@ -1,16 +1,18 @@
 import styled from "styled-components";
+import { ICardBuscaPassagem } from "../../types/ICardBuscaPassagem";
 
-export const Container = styled.div`
-    width: 80%;
-    height: 15vh;
+export const Container = styled.div<ICardBuscaPassagem>`
+    width: ${props => props.largura || 'auto'};
+    height: ${props => props.altura || 'auto'};
     display: flex;
     justify-content: center;
     align-items: center;
     background: #4AB63D;
-    border-radius: 10px;
+    background: ${props => props.fundo || '#4AB63D'};
+    border-radius: ${props => props.bordaArredodada || '10px'};
     position: relative;
-    top: -7.5vh;
-    left: 10%;
+    top: ${props => props.acima || 'auto'};
+    left: ${props => props.esquerda || 'auto'};
 `;
 
 export const DivInput = styled.div`

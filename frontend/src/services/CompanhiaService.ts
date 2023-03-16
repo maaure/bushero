@@ -8,6 +8,6 @@ const URL = API_URL + "companhia/";
     return axios.get(URL);
 } */
 
-export const listarCompanhia = () => axios.get(URL);
+export const listarCompanhia = (id:any) => axios.get(URL + '${id}');
 
 export const criarCompanhia = (data: ICompanhiaForm) => axios.post(URL, data);

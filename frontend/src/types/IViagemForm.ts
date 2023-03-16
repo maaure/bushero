@@ -1,4 +1,5 @@
 export interface IViagemForm {
+    id?: number,
     origem: string,
     destino: string,
     companhia: string,

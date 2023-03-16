@@ -1,6 +1,7 @@
 
 import Cabecalho from "./components/cabecalho"
-import ListarDePassagem from "./components/ListarDePassagem"
+import SequenciaDeDatas from "./components/SequenciaDeDatas"
+import ListaDePassagem from "./components/ListaDePassagem"
 import CadastrarCompanhia from "./pages/CadastrarCompanhia"
 import CadastrarViagem from "./pages/CadastrarViagem"
 import ReservaDePassagem from "./pages/ReservaDePassagem"
@@ -16,6 +17,8 @@ function App() {
       {/* <ListarDePassagem /> */}
       {/* <CadastrarCompanhia /> */}
       <ReservaDePassagem />
+      {/* <SequenciaDeDatas /> */}
+      {/* <ListaDePassagem /> */}
     </>
   )
 }

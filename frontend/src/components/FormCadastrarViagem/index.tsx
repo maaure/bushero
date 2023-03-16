@@ -1,7 +1,6 @@
-import { FormSelect } from 'react-bootstrap';
-import { Form, Button } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { FormSelect, Form, Button } from 'react-bootstrap';
 import { ContainerFormCadastrarViagem } from './styled';
-import React, { useEffect, useState } from 'react';
 import { IViagemForm } from '../../types/IViagemForm';
 import { criarViagem } from '../../services/ViagemService';
 import { listarCompanhia } from '../../services/CompanhiaService';
@@ -9,8 +8,9 @@ import { ISelect } from '../../types/ISelect';
 import { buscarMunicipios } from '../../services/MunicipiosService';
 import { parseToOption } from '../../utils';
 import { IMunicipio } from '../../types/IMunicipio';
-import { Option } from 'react-bootstrap-typeahead/types/types';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
+import { ToastContainer } from 'react-toastify';
+
 
 export default function FormCadastrarViagem() {
     const [selectCompanhia, setSelectCompanhia] = useState<ISelect[]>([]);
@@ -45,8 +45,8 @@ export default function FormCadastrarViagem() {
 
     function listarCompanhias() {
         listarCompanhia().then(
-            ({data}) => {
-                let k = data.map(({id, nome}: any) => {
+            ({ data }) => {
+                let k = data.map(({ id, nome }: any) => {
                     return {
                         id,
                         text: nome
@@ -160,6 +160,18 @@ export default function FormCadastrarViagem() {
                     Cadastrar
                 </Button>
             </Form>
+            <ToastContainer
+                position="bottom-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </ContainerFormCadastrarViagem>
     );
 }

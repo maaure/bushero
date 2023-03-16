@@ -1,4 +1,4 @@
-import Cabecalho from "../../components/cabecalho";
+import Cabecalho from "../../components/Cabecalho";
 import { ContainerCards, ImgViagem } from "./styles";
 import imgviagem from "../../assets/Img/viagembus.jpg";
 import CardBuscaPassagem from "../../components/CardBuscaPassagem";

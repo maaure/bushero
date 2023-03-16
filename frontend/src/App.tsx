@@ -1,5 +1,5 @@
 
-import Cabecalho from "./components/cabecalho"
+import Cabecalho from "./components/Cabecalho"
 import ListarDePassagem from "./components/ListarDePassagem"
 import CadastrarCompanhia from "./pages/CadastrarCompanhia"
 import CadastrarViagem from "./pages/CadastrarViagem"

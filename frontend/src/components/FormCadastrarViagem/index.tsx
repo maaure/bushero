@@ -6,10 +6,11 @@ import { IViagemForm } from '../../types/IViagemForm';
 import { criarViagem } from '../../services/ViagemService';
 import { ISelect } from '../../types/ISelect';
 import { listarCompanhia } from '../../services/CompanhiaService';
-import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { buscarMunicipios } from '../../services/MunicipiosService';
 import { parseToOption } from '../../utils';
 import { IMunicipio } from '../../types/IMunicipio';
+import { Option } from 'react-bootstrap-typeahead/types/types';
+import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
 interface IOptional {
     id: number,
@@ -19,7 +20,6 @@ interface IOptional {
 export default function FormCadastrarViagem() {
     const [selectCompanhia, setSelectCompanhia] = useState<ISelect[]>([]);
     const [origemOptions, setOrigemOptions] = useState<ISelect[]>([]);
-
 
     const [formValues, setFormValues] = useState<IViagemForm>({
         origem: 0,
@@ -50,8 +50,14 @@ export default function FormCadastrarViagem() {
 
     function listarCompanhias() {
         listarCompanhia().then(
-            (res) => {
-                setSelectCompanhia(res.data);
+            ({data}) => {
+                let k = data.map(({id, nome}: any) => {
+                    return {
+                        id,
+                        text: nome
+                    }
+                });
+                setSelectCompanhia(k);
             },
             (error) => {
                 console.log(error)
@@ -69,57 +75,54 @@ export default function FormCadastrarViagem() {
 
     };
 
-    const setOrigemValue = (k : {id: number, text: string}) => {
-        console.log(o.id)
-    }
-
-    const setDestinoValue = (k : {id: number, text: string}) => {
-        console.log(k.id)
-    }
-
-
     useEffect(listarCompanhias, [])
+
+
+    function setOrigem(e: any) {
+        formValues.origem = e.id
+        setFormValues(formValues);
+    }
+
+    function setDestino(e: any) {
+        formValues.destino = e.id
+        setFormValues(formValues);
+    }
 
     return (
         <ContainerFormCadastrarViagem>
             <Form onSubmit={handleSubmit}>
-                {/*                 <Form.Group className="mb-3" controlId="formBasicOrigem">
-                    <Form.Label>Origem</Form.Label>
-                    <Form.Control type="text" name="origem" value={formValues.origem} onChange={handleChange} placeholder="Informe local de origem" required />
-                </Form.Group>
-*/}
                 <Form.Group className="mb-3" controlId="formBasicOrigem">
                     <Form.Label>Origem</Form.Label>
                     <AsyncTypeahead
-                        id="cidade-origem"
+                        id="origem"
                         isLoading={false}
                         labelKey="text"
-                        minLength={3}
+                        minLength={2}
                         onSearch={handleSearch}
                         options={origemOptions}
-                        onChange={(v) => setOrigemValue(v)}
-                        placeholder="Informe local de Origem"
+                        onChange={(s) => setOrigem(s[0])}
+                        placeholder="Informe local de origem"
                     />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicDestino">
                     <Form.Label>Destino</Form.Label>
                     <AsyncTypeahead
-                        id="cidade-destino"
+                        id="destino"
                         isLoading={false}
                         labelKey="text"
-                        minLength={3}
+                        minLength={2}
                         onSearch={handleSearch}
                         options={origemOptions}
-                        onChange={(v) => setDestinoValue(v)}
-                        placeholder="Informe local de Destino"
+                        onChange={(s) => setDestino(s[0])}
+                        placeholder="Informe local de destino"
                     />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicClasse">
                     <Form.Label>Companhia</Form.Label>
                     <FormSelect name="companhia" value={formValues.companhia} onChange={handleChange} placeholder='Informe a companhia' required>
-                        <option value=""></option>
+                        <option value="0">Selecione uma companhia</option>
                         {
                             selectCompanhia.map((s) => {
                                 return (<option key={s.id} value={s.id}>{s.text}</option>)

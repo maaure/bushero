@@ -40,12 +40,7 @@ export const ItemLegenda = styled.div`
     align-items: center;
 `;
 
-export const BotaoReserva = styled.button`
-    background: #4AB63D;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    &:hover{
-        color: black;
-    }
+export const DivBus = styled.img`
+    width: 75vh;
+    height: 25vh;
 `;

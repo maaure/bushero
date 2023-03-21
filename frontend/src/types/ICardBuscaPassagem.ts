@@ -5,4 +5,5 @@ export interface ICardBuscaPassagem {
     acima?: string;
     bordaArredodada?: string;
     fundo?: string;
+    redirecionar?: boolean;
   }

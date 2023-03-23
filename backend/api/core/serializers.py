@@ -21,9 +21,16 @@ class ViagemSerializer(serializers.ModelSerializer):
     destino = MunicipioSerializer()
     companhia = CompanhiaSerializer()
     classe = ClasseViagemSerializer()
+
     class Meta:
         model = Viagem
         fields = '__all__'
+
+class ViagemCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Viagem
+        fields = '__all__'
+
 
 class PassagemSerializer(serializers.ModelSerializer):
     class Meta:

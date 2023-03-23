@@ -2,7 +2,7 @@ import { useState } from "react";
 import { buscarMunicipios } from "../../services/MunicipiosService";
 import { IMunicipio } from "../../types/IMunicipio";
 import { ISelect } from "../../types/ISelect";
-import { IViagemForm } from "../../types/IViagemForm";
+import { IViagem } from "../../types/IViagem";
 import { parseToOption } from "../../utils";
 import { AsyncTypeahead } from "react-bootstrap-typeahead"
 

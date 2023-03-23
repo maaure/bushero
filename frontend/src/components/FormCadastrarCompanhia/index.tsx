@@ -2,12 +2,12 @@ import { Form, Button } from 'react-bootstrap';
 import { ContainerFormCadastrarViagem } from './styled';
 import React, { useState } from 'react';
 import { criarCompanhia } from '../../services/CompanhiaService';
-import { ICompanhiaForm } from '../../types/ICompanhiaForm';
+import { ICompanhia } from '../../types/ICompanhia';
 
 
 export default function FormCadastrarCompanhia() {
 
-    const [formCompanhiaValues, setFormCompanhiaValues] = useState<ICompanhiaForm>({
+    const [formCompanhiaValues, setFormCompanhiaValues] = useState<ICompanhia>({
         nome: "",
         endereco: "",
         contato: "",

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FormSelect, Form, Button } from 'react-bootstrap';
 import { ContainerFormCadastrarViagem } from './styled';
-import { IViagemForm } from '../../types/IViagemForm';
 import { criarViagem } from '../../services/ViagemService';
 import { listarCompanhia } from '../../services/CompanhiaService';
 import { ISelect } from '../../types/ISelect';
@@ -11,6 +10,19 @@ import { IMunicipio } from '../../types/IMunicipio';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { ToastContainer } from 'react-toastify';
 
+export interface IViagemForm {
+    id?: number,
+    origem: number,
+    destino: number,
+    companhia: number,
+    horario_saida: string,
+    duracao: string,
+    classe: number,
+    valor: number,
+    assentos: number,
+}
+
+
 
 export default function FormCadastrarViagem() {
     const [selectCompanhia, setSelectCompanhia] = useState<ISelect[]>([]);
@@ -19,7 +31,7 @@ export default function FormCadastrarViagem() {
     const [formValues, setFormValues] = useState<IViagemForm>({
         origem: 0,
         destino: 0,
-        companhia: "",
+        companhia: 0,
         horario_saida: "",
         duracao: "",
         classe: 0,

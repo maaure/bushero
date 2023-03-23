@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Row } from 'react-bootstrap';
 import { listarViagem } from '../../services/ViagemService';
-import { IViagemForm } from '../../types/IViagemForm';
+import { IViagem } from '../../types/IViagem';
 import { BotaoReserva, ItemLegenda, ItemPassagem, LiLegenda, LiPassagem } from './styled';
-import { parseISO, format } from 'date-fns';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 
 
 
 export default function ListaDePassagem({ lugarOrigem, lugarDestino }: any) {
-  const [passagens, setPassagens] = useState<IViagemForm[]>([]);
+  const [passagens, setPassagens] = useState<IViagem[]>([]);
 
   const history = useNavigate();
   const location = useLocation();
@@ -68,8 +67,8 @@ export default function ListaDePassagem({ lugarOrigem, lugarDestino }: any) {
         </LiLegenda>
         {passagens.map((passagem) => (
           <LiPassagem key={passagem.id}>
-            <ItemPassagem>{passagem.companhia}</ItemPassagem>
-            <ItemPassagem>{passagem.origem} a {passagem.destino}</ItemPassagem>
+            <ItemPassagem>{passagem.companhia.nome}</ItemPassagem>
+            <ItemPassagem>{passagem.origem.nome} a {passagem.destino.nome}</ItemPassagem>
             <ItemPassagem>{passagem.horario_saida}</ItemPassagem>
             <ItemPassagem>{passagem.duracao}</ItemPassagem>
             <ItemPassagem>{passagem.valor}</ItemPassagem>

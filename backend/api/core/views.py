@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Companhia, Viagem, Passagem, Reserva, ClasseViagem, Assento, Municipio
-from .serializers import CompanhiaSerializer, ViagemSerializer, PassagemSerializer, ReservaSerializer, ClasseViagemSerializer, AssentoSerializer, MunicipioSerializer
+from .serializers import *
 from .validators import CompanhiaValidator, ViagemValidator
 
 class CompanhiaViewSet(viewsets.ViewSet):
@@ -72,7 +72,7 @@ class ViagemViewSet(viewsets.ViewSet):
         except:
             return Response({'error': ["Classe Inexistente"]}, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = ViagemSerializer(data=data)
+        serializer = ViagemCreateSerializer(data=data)
 
 
 

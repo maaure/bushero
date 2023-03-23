@@ -1,6 +1,7 @@
 import axios from "axios";
+import { IViagemForm } from "../components/FormCadastrarViagem";
 import { API_URL } from "../data/api";
-import { IViagemForm } from "../types/IViagemForm";
+import { IViagem } from "../types/IViagem";
 
 const URL = API_URL + "viagem/";
 

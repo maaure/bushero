@@ -81,8 +81,7 @@ class ViagemViewSet(viewsets.ViewSet):
             return Response({'message': "Viagem cadastrada com sucesso.", 'data': serializer.data}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
+    
     @action(detail=True, methods=["get"])
     def assentos(self, request, pk=None):
         try:
@@ -99,6 +98,20 @@ class ViagemViewSet(viewsets.ViewSet):
         serializer = AssentoSerializer(assentos, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+    @action(detail=False, methods=["get"], url_path='(?P<pk>[^/.]+)')
+    def detalhar(self, request, pk=None):
+        viagem = None
+        try:
+            viagem = Viagem.objects.get(pk=pk)
+        except:
+            return Response({'error': ["Essa viagem não existe"]}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = ViagemSerializer(viagem)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 class PassagemViewSet(viewsets.ViewSet):
     def list(self, request):
         query_set = Passagem.objects.all() 

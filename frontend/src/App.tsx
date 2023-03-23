@@ -15,14 +15,14 @@ export default function App() {
       <Cabecalho />
       {/* <ListaDePassagem /> */}
       {/* <ReservaDePassagem /> */}
-      <ReservaAssento />
-      {/* <Routes>
+      {/* <ReservaAssento /> */}
+      <Routes>
         <Route path="/" element={<TelaInicial/>}></Route>
         <Route path="/reserva-viagem" element={<ReservaDePassagem/>}></Route>
         <Route path="/cadastrar-viagem" element={<CadastrarViagem/>}></Route>
         <Route path="/listar-passagens" element={<ListaDePassagem/>}></Route>
         <Route path="/cadastrar-companhia" element={<CadastrarCompanhia/>}></Route>
-      </Routes> */}
+      </Routes>
     </>
   )
 }

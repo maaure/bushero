@@ -4,25 +4,33 @@ import { listarViagem } from '../../services/ViagemService';
 import { IViagemForm } from '../../types/IViagemForm';
 import { BotaoReserva, ItemLegenda, ItemPassagem, LiLegenda, LiPassagem } from './styled';
 import { parseISO, format } from 'date-fns';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 
 
 
 export default function ListaDePassagem({ lugarOrigem, lugarDestino }: any) {
   const [passagens, setPassagens] = useState<IViagemForm[]>([]);
 
+  const history = useNavigate();
   const location = useLocation();
+
+  function reservarPassagem(id: number) {
+    localStorage.setItem('idViagem', id.toString())
+    history('/reserva-viagem')
+  }
+
+
   function listarPassagens() {
     listarViagem() //faça a consulta
-    .then((response) => { //então... 
-      setPassagens(response.data); //atribua os valores ao estado 'passagens'
-    })
-    .then(() => { //então...
-      //realizar filtro por lugarOrigem e lugarDestino
+      .then((response) => { //então... 
+        setPassagens(response.data); //atribua os valores ao estado 'passagens'
+      })
+      .then(() => { //então...
+        //realizar filtro por lugarOrigem e lugarDestino
         console.log(location.state.lugarOrigem);
-/*         passagens.filter(
-          (p) => p.origem === lugarOrigem && p.destino === lugarDestino
-        ) */
+        /*         passagens.filter(
+                  (p) => p.origem === lugarOrigem && p.destino === lugarDestino
+                ) */
 
       });
 
@@ -65,7 +73,11 @@ export default function ListaDePassagem({ lugarOrigem, lugarDestino }: any) {
             <ItemPassagem>{passagem.horario_saida}</ItemPassagem>
             <ItemPassagem>{passagem.duracao}</ItemPassagem>
             <ItemPassagem>{passagem.valor}</ItemPassagem>
-            <BotaoReserva>Reservar</BotaoReserva>
+            <BotaoReserva onClick={() => {
+              reservarPassagem(passagem.id || 0)
+            }}>
+              Reservar
+            </BotaoReserva>
           </LiPassagem>
         ))}
       </ul>

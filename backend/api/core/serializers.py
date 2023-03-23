@@ -5,10 +5,25 @@ class CompanhiaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Companhia
         fields = '__all__'
+
+class MunicipioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Municipio
+        fields = '__all__'
+
+class ClasseViagemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClasseViagem
+        fields = '__all__'
+
 class ViagemSerializer(serializers.ModelSerializer):
+    origem = MunicipioSerializer()
+    destino = MunicipioSerializer()
+    
     class Meta:
         model = Viagem
         fields = '__all__'
+
 class PassagemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Passagem
@@ -18,17 +33,8 @@ class ReservaSerializer(serializers.ModelSerializer):
         model = Reserva
         fields = '__all__'
 
-class ClasseViagemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ClasseViagem
-        fields = '__all__'
 
 class AssentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Assento
         fields = ['numero_assento', 'disponivel']
-
-class MunicipioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Municipio
-        fields = '__all__'

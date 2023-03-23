@@ -38,6 +38,7 @@ class CompanhiaViewSet(viewsets.ViewSet):
         
         
 class ViagemViewSet(viewsets.ViewSet):
+    
     def list(self, request):
         query_set = Viagem.objects.all() 
         serializer = ViagemSerializer(query_set, many=True)
@@ -109,7 +110,6 @@ class ViagemViewSet(viewsets.ViewSet):
             return Response({'error': ["Essa viagem não existe"]}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = ViagemSerializer(viagem)
-
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class PassagemViewSet(viewsets.ViewSet):

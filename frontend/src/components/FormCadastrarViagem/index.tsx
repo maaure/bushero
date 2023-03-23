@@ -20,7 +20,7 @@ export default function FormCadastrarViagem() {
         origem: 0,
         destino: 0,
         companhia: "",
-        saida: "",
+        horario_saida: "",
         duracao: "",
         classe: 0,
         valor: 0,
@@ -45,7 +45,7 @@ export default function FormCadastrarViagem() {
 
     function listarCompanhias() {
         listarCompanhia().then(
-            ({ data }) => {
+            ({ data } : any) => {
                 let k = data.map(({ id, nome }: any) => {
                     return {
                         id,
@@ -58,7 +58,9 @@ export default function FormCadastrarViagem() {
                 console.log(error)
             });
     }
-
+    
+    useEffect(listarCompanhias, [])
+    
     const handleSearch = (query: string) => {
         buscarMunicipios(query)
             .then((res) => res.data)
@@ -69,9 +71,6 @@ export default function FormCadastrarViagem() {
             });
 
     };
-
-    useEffect(listarCompanhias, [])
-
 
     function setOrigem(e: any) {
         formValues.origem = e.id
@@ -128,7 +127,7 @@ export default function FormCadastrarViagem() {
 
                 <Form.Group className="mb-3" controlId="formBasicHorarioDeSaída">
                     <Form.Label>Horário de Saída</Form.Label>
-                    <Form.Control type="datetime-local" name="saida" value={formValues.saida} onChange={handleChange} placeholder="Informe horário de saída" required />
+                    <Form.Control type="datetime-local" name="horario_saida" value={formValues.horario_saida} onChange={handleChange} placeholder="Informe horário de saída" required />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicTempoDeViagem">

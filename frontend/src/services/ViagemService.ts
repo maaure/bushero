@@ -8,6 +8,8 @@ export const listarViagem = () => {
     return axios.get(URL);
 }
 
+export const detalharViagem = (id:any) => axios.get(URL + `${id}`);
+
 export const criarViagem = (data: IViagemForm) => {
     return axios.post(URL, data);
 }
